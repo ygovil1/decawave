@@ -3,7 +3,10 @@ try:
 except:
     print("except")
     from pyserial import Serial
+
 import time
+from sys import argv
+import pickle
 
 PORT = '/dev/ttyACM0'
 BAUDRATE = 115200
@@ -20,7 +23,6 @@ TIMEOUT = 0.5
 def clearSer(ser):
     ser.write(CLEAR)
     ser.read(BIGNUM)
-
 
 # -----------------------------------------------------------------------
 
@@ -100,7 +102,11 @@ def getDist(ser):
 
 def main():
 
-    ser = Serial(port = PORT, baudrate = BAUDRATE, timeout = TIMEOUT)
+    port = PORT
+    if len(argv) > 1:
+        port = argv[1]
+
+    ser = Serial(port = port, baudrate = BAUDRATE, timeout = TIMEOUT)
     if not ser.is_open:
         ser.open()
     print(ser)
@@ -109,6 +115,12 @@ def main():
 
     distances = getDist(ser)
     print(distances)
+
+    if len(argv) > 2 and len(distances) > 0:
+        filenum = argv[2]
+        filename = "static_measure_" + filenum + ".pickle"
+        with open(filename, 'wb') as f:
+            pickle.dump(distances, f)
 
     ser.close()
 
