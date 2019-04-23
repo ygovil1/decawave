@@ -1,0 +1,12 @@
+{
+	anch_loc: new_dists{
+		dist (float): tags[
+			( tag_loc, numMeasure ), 
+			( tag_loc2, numMeasure2 )
+		]
+	},
+}
+
+
+Preference rules:
+	
