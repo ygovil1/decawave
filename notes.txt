@@ -9,4 +9,12 @@
 
 
 Preference rules:
-	
+	anch_53 - V good if avail, high weight
+
+Heuristic:
+	linearly interpolate each anch available to get position according to that anchor:
+		find bottom and top distances and matching points
+		calc distance between bottom and top points, if too far, use another point
+
+	If anch_53 available, use that:
+		get higher and lower dist measures and matching point numbers, pixel coordinates
