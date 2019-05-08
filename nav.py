@@ -36,13 +36,12 @@ def main():
         # first, read x_pos, y_pos, angle, and floor from Yash's tags
         target = ["state", "updated_state"]
         msg_list = mb.readMsg(target)
-        if len(msg_list) == 0:
-            continue
-
-        msg = msg_list[-1] # get most recent one message
-        x_pix = msg["x_pos_pixels"]     # FINAL
-        y_pix = msg["y_pos_pixels"]     # FINAL
-        floor = msg["floor"]            # FINAL
+        print("1")
+        if len(msg_list) > 0:
+                msg = msg_list[-1] # get most recent one message
+                x_pix = msg["x_pos_pixels"]     # FINAL
+                y_pix = msg["y_pos_pixels"]     # FINAL
+                floor = msg["floor"]            # FINAL
 
         # communicate with server
         url = "http://drjava.herokuapp.com/getinstruction"
@@ -51,8 +50,10 @@ def main():
             "ypos": y_pix,
             "floor": floor
         }
+        print("Getting Response")
         response = requests.get(url, params=payload)
         respDict = response.json()
+        print(respDict)
 
         mb.postMsg(cmd, respDict)
 
