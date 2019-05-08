@@ -99,7 +99,6 @@ def getDist(ser):
     clearSer(ser)
     return distances
 
-
 # -----------------------------------------------------------------------
 
 # Reads one line from the decawave tag
@@ -195,7 +194,6 @@ def main():
 
 
     ser.close()
-
 
 # -----------------------------------------------------------------------
 

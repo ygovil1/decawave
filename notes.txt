@@ -18,3 +18,14 @@ Heuristic:
 
 	If anch_53 available, use that:
 		get higher and lower dist measures and matching point numbers, pixel coordinates
+
+
+broadcast: 
+{
+	"ts": datetime64,
+	"author": "yash",
+	"x pos global": float,
+	"y pos global": float, 
+	"floor": int, 
+	"good": bool
+}
