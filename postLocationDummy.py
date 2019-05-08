@@ -360,12 +360,12 @@ def main():
             "y_meter_global": y_m, 
             "floor": floor, 
             "status": status, 
-            "angle": angle
+            "global_angle": angle
         }   
 
         mb.postMsg(cmd, msg)
-        
-        time.sleep(0.2)
+
+        time.sleep(2)
 
 
     ser.close()
