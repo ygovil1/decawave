@@ -71,7 +71,7 @@ def readLine(ser):
             continue
         # print(distanceBytes)
         distance = float(byteToStr(distanceBytes))
-        distances[name_to_point[device]] = distance
+        distances[NAME_TO_POINT[device]] = distance
 
     return distances
 
