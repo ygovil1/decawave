@@ -34,7 +34,7 @@ def main():
 
     while(True):
         # first, read x_pos, y_pos, angle, and floor from Yash's tags
-        target = [ ["state", "updated_state"] ]
+        target = ["state", "updated_state"]
         msg_list = mb.readMsg(target)
         if len(msg_list) == 0:
             continue

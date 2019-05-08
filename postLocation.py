@@ -361,7 +361,7 @@ def main():
             "floor": floor, 
             "status": status, 
             "angle": angle
-        }
+        }   
 
         mb.postMsg(cmd, msg)
 
