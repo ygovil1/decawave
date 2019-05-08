@@ -364,6 +364,8 @@ def main():
         }   
 
         mb.postMsg(cmd, msg)
+        
+        time.sleep(0.2)
 
 
     ser.close()
