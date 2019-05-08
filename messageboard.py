@@ -3,6 +3,7 @@ import time
 import pymongo
 import datetime
 
+from sys import argv, exit
 
 class MessageBoard():
     MONGO_SERVER = "mongodb://admin:drjava@192.168.1.10:27017"
@@ -117,6 +118,9 @@ def main():
     # each internal list of format: [ “module”, “cmd” ]
     print("Reading...")
     targets = ["test_module2", "test"]
+
+    if len(argv) > 2:
+        targets = [argv[1], argv[2]]
 
     # specify a duration in seconds to look back
     begin_ts = 1200
