@@ -131,7 +131,7 @@ def findBotTop(dist, anchor_num, sorted_data):
         topdist = dist_list[hi]
         botpoint = sorted_data[anchor_num][botdist][0][0]
         toppoint = sorted_data[anchor_num][topdist][0][0]
-        print("lo: " + str(lo) + ", consider: " + str(botpoint) + ", " + str(toppoint))
+        # print("lo: " + str(lo) + ", consider: " + str(botpoint) + ", " + str(toppoint))
         botpixel = points_list[botpoint]
         toppixel = points_list[toppoint]
         separation = distPixels(botpixel, toppixel)
@@ -342,7 +342,8 @@ def main():
             lines[2] = line2
             line = line2
 
-        print(lines)
+        if len(lines) != 0:
+            print(lines)
 
         if len(lines) == 0:
             continue
