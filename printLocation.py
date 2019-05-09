@@ -223,7 +223,7 @@ def weighted_pixel_ave(weights, anch_predictions):
     return (sum[0] / weights_sum, sum[1] / weights_sum)
 
 # get location of tag given distances to anchors
-def get_location(anch_dists, sorted_data):
+def get_location(anch_dists):
 #     print(weights)
     anch_predictions = {}
     for anch_loc, dist in anch_dists.items():
