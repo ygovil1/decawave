@@ -173,7 +173,7 @@ def findBotTop(dist, anchor_num, sorted_data):
     ret_data['botpoint'] = botpoint
     ret_data['toppoint'] = toppoint
     if anchor_num == '1485':
-        print("ret_data: ")
+        print("ret_data for dist: " + str(dist))
         print(ret_data)
     return ret_data
 
