@@ -210,7 +210,7 @@ def linear_interp(dist, anchor_num, sorted_data):
 
 
 # Get location functions 
-weights = {'CB35': 20, '1934': 0, '872D': 1, '0288': 10, '1485': 1}
+weights = {'CB35': 20, '1934': 0, '872D': 1, '0288': 10, '1485': 20}
 middle_range = 3
 elevator_range = 3
 dist_scale_range = 10
@@ -338,6 +338,7 @@ def main():
             # print("no line - 1")
             pass
         else: 
+            print("ACM0")
             lines[1] = line1
             line = line1
 
@@ -346,6 +347,7 @@ def main():
             # print("no line - 2")
             pass
         else: 
+            print("ACM1")
             lines[2] = line2
             line = line2
 
