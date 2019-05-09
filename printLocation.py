@@ -172,8 +172,8 @@ def findBotTop(dist, anchor_num, sorted_data):
     ret_data['topdist'] = topdist
     ret_data['botpoint'] = botpoint
     ret_data['toppoint'] = toppoint
-    print("ret_data for anch: " + str(anchor_num))
-    print(ret_data)
+    # print("ret_data for anch: " + str(anchor_num))
+    # print(ret_data)
     return ret_data
 
 # Linearly interpolate this distance using one anchor info
@@ -361,7 +361,7 @@ def main():
             anch_pred, prediction = get_location(dists)
             x, y = prediction
 
-            print(anch_pred, prediction)
+            print(prediction)
 
         else:
             # get x, y coords
