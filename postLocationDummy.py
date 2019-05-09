@@ -344,7 +344,7 @@ def main():
         # x2, y2 = prediction2
 
         # get ave position
-        x = 250
+        x = 255
         y = 75
         x_m = PIX_TO_M_X * x
         y_m = PIX_TO_M_Y * y
