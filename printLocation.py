@@ -106,7 +106,7 @@ def distPixels(pixel1, pixel2):
 
 def findBotTop(dist, anchor_num, sorted_data):
     ret_data = {}
-    dist_list = list(sorted_data[anchor_num].keys())
+    dist_list = sorted(list(sorted_data[anchor_num].keys()))
     
     # find bottom and top index
     bot_ind = 0
