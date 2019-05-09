@@ -340,6 +340,8 @@ def main():
             lines[2] = line2
             line = line2
 
+        print(lines)
+
         if len(lines) == 0:
             continue
         elif len(lines) == 1:
