@@ -29,6 +29,9 @@ PIX_TO_M_Y = 0.2
 
 NAME_TO_POINT = {'1934': 50, '872D': 54, 'CB35': 53}
 
+sorted_data = []
+points_list = []
+
 # -----------------------------------------------------------------------
 
 def clearSer(ser):
@@ -277,9 +280,6 @@ def main():
     cmd = "location_data"
     floor = 2
     status = "testing"
-
-    sorted_data = []
-    points_list = []
 
 
     # Get point and static measurement data
