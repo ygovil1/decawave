@@ -36,7 +36,7 @@ def main():
         # first, read x_pos, y_pos, angle, and floor from Yash's tags
         target = ["state", "updated_state"]
         msg_list = mb.readMsg(target)
-        print("1")
+        # print("1")
         if len(msg_list) > 0:
                 msg = msg_list[-1] # get most recent one message
                 x_pix = msg["x_pos_pixels"]     # FINAL
@@ -50,10 +50,10 @@ def main():
             "ypos": y_pix,
             "floor": floor
         }
-        print("Getting Response")
+        # print("Getting Response")
         response = requests.get(url, params=payload)
         respDict = response.json()
-        print(respDict)
+        # print(respDict)
 
         mb.postMsg(cmd, respDict)
 

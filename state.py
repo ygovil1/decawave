@@ -99,7 +99,7 @@ def main():
         elif status == "idle" and len(msg_list) > 0:
             status = "delivering"
         elif status == "delivering":
-            if move_magnitude <= 0.20:        #  20 cm? what unit is "nav" in?
+            if move_magnitude <= 2:        #  2 m? what unit is "nav" in?
                 status = "arrived"  # FINAL
         elif status == "arrived":
             # check Khanh's "door" module to see if at door yet

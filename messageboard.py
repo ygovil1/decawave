@@ -123,7 +123,7 @@ def main():
         targets = [argv[1], argv[2]]
 
     # specify a duration in seconds to look back
-    begin_ts = 1200
+    begin_ts = 300
 
     # read messages from targets since last read
     # returns a list of dicts (each msg is a dict)
