@@ -73,7 +73,7 @@ class MessageBoard():
         cmd = toRead[1]
 
         query = {
-            "ts": {"$gte": ts},
+            "ts": {"$gt": ts, "$lt": now},
             "$and": [
                 {"module": module},
                 {"cmd": cmd}
@@ -81,7 +81,7 @@ class MessageBoard():
         }
 
         if getAll:
-            query = { "ts": {"$gte": self.creation} }
+            query = { "ts": {"$gt": self.creation, "$lt": now} }
 
         # print(query)
 
