@@ -32,6 +32,18 @@ NAME_TO_POINT = {'1934': 50, '872D': 54, 'CB35': 53}
 sorted_data = []
 points_list = []
 
+# Get point and static measurement data
+with open('point_data_sorted_snd.pickle', 'rb') as infile1:
+    sorted_data = pickle.load(infile1)
+
+with open('points_list.pickle', 'rb') as infile2:
+    points_list = pickle.load(infile2)
+
+for i in range(len(points_list)):
+    point = points_list[i]
+    new_point = (int(point[0]), int(point[1]))
+    points_list[i] = new_point
+
 # -----------------------------------------------------------------------
 
 def clearSer(ser):
@@ -280,19 +292,6 @@ def main():
     cmd = "location_data"
     floor = 2
     status = "testing"
-
-
-    # Get point and static measurement data
-    with open('point_data_sorted_snd.pickle', 'rb') as infile1:
-        sorted_data = pickle.load(infile1)
-
-    with open('points_list.pickle', 'rb') as infile2:
-        points_list = pickle.load(infile2)
-
-    for i in range(len(points_list)):
-        point = points_list[i]
-        new_point = (int(point[0]), int(point[1]))
-        points_list[i] = new_point
 
     name_to_point = NAME_TO_POINT
 
