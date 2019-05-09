@@ -357,7 +357,7 @@ def main():
 
             # get x, y coords
             dists = line 
-            anch_pred, prediction = get_location(dists, sorted_data)
+            anch_pred, prediction = get_location(dists)
             x, y = prediction
 
             print(anch_pred, prediction)
@@ -365,11 +365,11 @@ def main():
         else:
             # get x, y coords
             dists1 = line1 
-            anch_pred1, prediction1 = get_location(dists1, sorted_data)
+            anch_pred1, prediction1 = get_location(dists1)
             x1, y1 = prediction1
 
             dists2 = line2
-            anch_pred2, prediction2 = get_location(dists2, sorted_data)
+            anch_pred2, prediction2 = get_location(dists2)
             x2, y2 = prediction2
 
             # get ave position
