@@ -63,8 +63,6 @@ class MessageBoard():
 
             if sinceCreation:
                 ts = self.creation
-
-            self.tss[toRead] = now
         else:
             ts = now - ts
             print("Reading since: " + str(ts))
@@ -92,6 +90,9 @@ class MessageBoard():
         for doc in cursor:
             # print(doc)
             info.append(doc)
+
+        if len(info) > 0 and ts == None:
+            self.tss[toRead] = now
 
         return info
 
