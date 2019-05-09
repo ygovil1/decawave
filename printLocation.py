@@ -66,8 +66,8 @@ def readLine(ser):
     # split line into its parts
     parts = line.split(b' ')
     if len(parts) <= 1:
-        print('skipped, len <= 1, len: ' + str(len(parts)))
-        print(line)
+        # print('skipped, len <= 1, len: ' + str(len(parts)))
+        # print(line)
         return {}
 
     # process each part
@@ -330,14 +330,16 @@ def main():
         lines = {}
         line1 = readLine(ser1)
         if len(line1) < 1:
-            print("no line - 1")
+            # print("no line - 1")
+            pass
         else: 
             lines[1] = line1
             line = line1
 
         line2 = readLine(ser2)
         if len(line2) < 1:
-            print("no line - 2")
+            # print("no line - 2")
+            pass
         else: 
             lines[2] = line2
             line = line2
