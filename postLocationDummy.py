@@ -351,7 +351,7 @@ def main():
 
         # get angle
         angle = 0
-        print((x, y, angle))
+        # print((x, y, angle))
 
         msg = {
             "x_pix_global": x, 
