@@ -325,48 +325,66 @@ def main():
 
     while(True):
         now = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
+        lines = {}
         line1 = readLine(ser1)
         if len(line1) < 1:
             print("no line - 1")
-            continue
+        else: 
+            lines[1] = line1
+            line = line1
 
         line2 = readLine(ser2)
         if len(line2) < 1:
             print("no line - 2")
+        else: 
+            lines[2] = line2
+            line = line2
+
+        if len(lines) == 0:
             continue
+        elif len(lines) == 1:
+            print('only 1 line')
 
-        # get x, y coords
-        dists1 = line1 
-        anch_pred1, prediction1 = get_location(dists1)
-        x1, y1 = prediction1
+            # get x, y coords
+            dists = line 
+            anch_pred, prediction = get_location(dists)
+            x, y = prediction
 
-        dists2 = line2
-        anch_pred2, prediction2 = get_location(dists2)
-        x2, y2 = prediction2
+            print(prediction)
 
-        # get ave position
-        x = (x1 + x2) / 2 
-        y = (y1 + y2) / 2
-        x_m = PIX_TO_M_X * x
-        y_m = PIX_TO_M_Y * y
+        else:
+            # get x, y coords
+            dists1 = line1 
+            anch_pred1, prediction1 = get_location(dists1)
+            x1, y1 = prediction1
 
-        # Check within bounds
-        if x > 87 and y > 87:
-            continue
+            dists2 = line2
+            anch_pred2, prediction2 = get_location(dists2)
+            x2, y2 = prediction2
 
-        # get angle
-        angle = get_angle(x1, y1, x2, y2)
-        print((prediction1, prediction2, angle))
+            # get ave position
+            x = (x1 + x2) / 2 
+            y = (y1 + y2) / 2
+            x_m = PIX_TO_M_X * x
+            y_m = PIX_TO_M_Y * y
 
-        msg = {
-            "x_pix_global": x, 
-            "y_pix_global": y,
-            "x_meter_global": x_m, 
-            "y_meter_global": y_m, 
-            "floor": floor, 
-            "status": status, 
-            "angle": angle
-        }   
+            # Check within bounds
+            # if x > 87 and y > 87:
+            #     continue
+
+            # get angle
+            angle = get_angle(x1, y1, x2, y2)
+            print((prediction1, prediction2, angle))
+
+        # msg = {
+        #     "x_pix_global": x, 
+        #     "y_pix_global": y,
+        #     "x_meter_global": x_m, 
+        #     "y_meter_global": y_m, 
+        #     "floor": floor, 
+        #     "status": status, 
+        #     "angle": angle
+        # }   
 
         # mb.postMsg(cmd, msg)
 
