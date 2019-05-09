@@ -184,8 +184,8 @@ def linear_interp(dist, anchor_num, sorted_data):
     
     topdist = bot_top_data['topdist']
     botdist = bot_top_data['botdist']
-    botpixel = points_list[bot_top_data['botpoint']]
-    toppixel = points_list[bot_top_data['toppoint']]
+    botpixel = points_list[bot_top_data['botpoint'] -1]
+    toppixel = points_list[bot_top_data['toppoint'] -1]
     x1, y1 = botpixel
     x2, y2 = toppixel
     
@@ -241,16 +241,18 @@ def get_location(anch_dists):
     # reign in middle error
     if tea_room in anch_predictions and middle in anch_predictions:
         dist_btw = distPixels(anch_predictions[tea_room], anch_predictions[middle])
-        weight_scale = middle_range / dist_btw
-#         print("middle: " + str(dist_btw))
-        copy_weights[middle] = copy_weights[middle] * weight_scale
+        if dist_btw > 0:
+            weight_scale = middle_range / dist_btw
+    #         print("middle: " + str(dist_btw))
+            copy_weights[middle] = copy_weights[middle] * weight_scale
     
     # reign in elevator error
     if tea_room in anch_predictions and elevator in anch_predictions:
         dist_btw = distPixels(anch_predictions[tea_room], anch_predictions[elevator])
-        weight_scale = elevator_range / dist_btw
-#         print("elevator: " + str(dist_btw))
-        copy_weights[elevator] = copy_weights[elevator] * weight_scale
+        if dist_btw > 0:
+            weight_scale = elevator_range / dist_btw
+    #         print("elevator: " + str(dist_btw))
+            copy_weights[elevator] = copy_weights[elevator] * weight_scale
         
     # scale weight by dist
     for anch_loc, dist in anch_dists.items():
