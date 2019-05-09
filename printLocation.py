@@ -64,13 +64,13 @@ def byteToStr(bytes):
 def readLine(ser):
     line = ser.readline()
     # split line into its parts
-    print(line)
     parts = line.split(b' ')
     if len(parts) <= 1:
         # print('skipped, len <= 1, len: ' + str(len(parts)))
         # print(line)
         return {}
 
+    print(line)
     # process each part
     distances = {}
     for part in parts:
