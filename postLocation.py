@@ -350,6 +350,10 @@ def main():
         x_m = PIX_TO_M_X * x
         y_m = PIX_TO_M_Y * y
 
+        # Check within bounds
+        if x > 87 and y > 87:
+            continue
+
         # get angle
         angle = get_angle(x1, y1, x2, y2)
         print((prediction1, prediction2, angle))
