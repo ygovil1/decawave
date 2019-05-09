@@ -124,6 +124,7 @@ def main():
         filenum = argv[2]
         filename = "static_measure_" + filenum + ".pickle"
         with open(filename, 'wb') as f:
+            print("dumping: " + filename)
             pickle.dump(distances, f)
 
     ser.close()
