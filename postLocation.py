@@ -189,7 +189,7 @@ def linear_interp(dist, anchor_num, sorted_data):
 
 
 # Get location functions 
-weights = {50: 2, 51: 10, 52:0, 53: 20, 54:2}
+weights = {'CB35': 20, '1934': 0, '872D': 1, '0288': 10, '1485': 1}
 middle_range = 3
 elevator_range = 3
 dist_scale_range = 10
@@ -213,9 +213,10 @@ def get_location(anch_dists):
         anch_predictions[anch_loc] = this_prediction['thispixel']
     
     copy_weights = dict(weights)
-    tea_room = 53
-    middle = 54
-    elevator = 50
+    tea_room = 'CB35'
+    middle = '1934'
+    middle_2 = '872D'
+    elevator = '0288'
     
     # reign in middle error
     if tea_room in anch_predictions and middle in anch_predictions:
@@ -239,7 +240,7 @@ def get_location(anch_dists):
 #     print(copy_weights)
     ave = weighted_pixel_ave(copy_weights, anch_predictions)
         
-    return anch_predictions, ave
+    return anch_predictions, (ave[0] + 5, ave[1])
 
 # Get orientation of robot based on two tag locations
 def get_angle(x1, y1, x2, y2):
@@ -282,7 +283,7 @@ def main():
 
 
     # Get point and static measurement data
-    with open('point_data_filtered.pickle', 'rb') as infile1:
+    with open('point_data_sorted_snd.pickle', 'rb') as infile1:
         sorted_data = pickle.load(infile1)
 
     with open('points_list.pickle', 'rb') as infile2:
