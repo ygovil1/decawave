@@ -357,7 +357,7 @@ def main():
             anch_pred, prediction = get_location(dists, sorted_data)
             x, y = prediction
 
-            print(prediction)
+            print(anch_pred, prediction)
 
         else:
             # get x, y coords
