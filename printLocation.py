@@ -85,11 +85,11 @@ def readLine(ser):
         # print(device)
         try:
             distanceBytes = part.split(b'=')[1]
+            distance = float(byteToStr(distanceBytes))
         except:
             print("skip: " + str(part))
             continue
         # print(distanceBytes)
-        distance = float(byteToStr(distanceBytes))
         distances[device] = distance
 
     return distances
