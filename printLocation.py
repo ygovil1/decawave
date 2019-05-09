@@ -44,6 +44,9 @@ for i in range(len(points_list)):
     new_point = (int(point[0]), int(point[1]))
     points_list[i] = new_point
 
+print(sorted_data)
+print(points_list)
+
 # -----------------------------------------------------------------------
 
 def clearSer(ser):
