@@ -29,6 +29,24 @@ PIX_TO_M_Y = 0.2
 
 NAME_TO_POINT = {'1934': 50, '872D': 54, 'CB35': 53}
 
+sorted_data = []
+points_list = []
+
+# Get point and static measurement data
+with open('point_data_sorted_snd.pickle', 'rb') as infile1:
+    sorted_data = pickle.load(infile1)
+
+with open('points_list.pickle', 'rb') as infile2:
+    points_list = pickle.load(infile2)
+
+for i in range(len(points_list)):
+    point = points_list[i]
+    new_point = (int(point[0]), int(point[1]))
+    points_list[i] = new_point
+
+print(sorted_data)
+print(points_list)
+
 # -----------------------------------------------------------------------
 
 def clearSer(ser):
@@ -48,10 +66,11 @@ def readLine(ser):
     # split line into its parts
     parts = line.split(b' ')
     if len(parts) <= 1:
-        print('skipped, len <= 1, len: ' + str(len(parts)))
-        print(line)
+        # print('skipped, len <= 1, len: ' + str(len(parts)))
+        # print(line)
         return {}
 
+    # print(line)
     # process each part
     distances = {}
     for part in parts:
@@ -66,11 +85,11 @@ def readLine(ser):
         # print(device)
         try:
             distanceBytes = part.split(b'=')[1]
+            distance = float(byteToStr(distanceBytes))
         except:
             print("skip: " + str(part))
             continue
         # print(distanceBytes)
-        distance = float(byteToStr(distanceBytes))
         distances[device] = distance
 
     return distances
@@ -88,7 +107,7 @@ def distPixels(pixel1, pixel2):
 
 def findBotTop(dist, anchor_num, sorted_data):
     ret_data = {}
-    dist_list = list(sorted_data[anchor_num].keys())
+    dist_list = sorted(list(sorted_data[anchor_num].keys()))
     
     # find bottom and top index
     bot_ind = 0
@@ -113,7 +132,7 @@ def findBotTop(dist, anchor_num, sorted_data):
         topdist = dist_list[hi]
         botpoint = sorted_data[anchor_num][botdist][0][0]
         toppoint = sorted_data[anchor_num][topdist][0][0]
-#         print("lo: " + str(lo) + ", consider: " + str(botpoint) + ", " + str(toppoint))
+        # print("lo: " + str(lo) + ", consider: " + str(botpoint) + ", " + str(toppoint))
         botpixel = points_list[botpoint]
         toppixel = points_list[toppoint]
         separation = distPixels(botpixel, toppixel)
@@ -154,6 +173,8 @@ def findBotTop(dist, anchor_num, sorted_data):
     ret_data['topdist'] = topdist
     ret_data['botpoint'] = botpoint
     ret_data['toppoint'] = toppoint
+    # print("ret_data for anch: " + str(anchor_num))
+    # print(ret_data)
     return ret_data
 
 # Linearly interpolate this distance using one anchor info
@@ -164,8 +185,8 @@ def linear_interp(dist, anchor_num, sorted_data):
     
     topdist = bot_top_data['topdist']
     botdist = bot_top_data['botdist']
-    botpixel = points_list[bot_top_data['botpoint']]
-    toppixel = points_list[bot_top_data['toppoint']]
+    botpixel = points_list[bot_top_data['botpoint'] -1]
+    toppixel = points_list[bot_top_data['toppoint'] -1]
     x1, y1 = botpixel
     x2, y2 = toppixel
     
@@ -189,10 +210,10 @@ def linear_interp(dist, anchor_num, sorted_data):
 
 
 # Get location functions 
-weights = {'CB35': 20, '1934': 0, '872D': 1, '0288': 10, '1485': 1}
+weights = {'CB35': 20, '1934': 0, '872D': 1, '0288': 10, '1485': 20}
 middle_range = 3
 elevator_range = 3
-dist_scale_range = 10
+dist_scale_range = 15
 
 def weighted_pixel_ave(weights, anch_predictions):
     sum = (0,0)
@@ -221,16 +242,18 @@ def get_location(anch_dists):
     # reign in middle error
     if tea_room in anch_predictions and middle in anch_predictions:
         dist_btw = distPixels(anch_predictions[tea_room], anch_predictions[middle])
-        weight_scale = middle_range / dist_btw
-#         print("middle: " + str(dist_btw))
-        copy_weights[middle] = copy_weights[middle] * weight_scale
+        if dist_btw > 0:
+            weight_scale = middle_range / dist_btw
+    #         print("middle: " + str(dist_btw))
+            copy_weights[middle] = copy_weights[middle] * weight_scale
     
     # reign in elevator error
     if tea_room in anch_predictions and elevator in anch_predictions:
         dist_btw = distPixels(anch_predictions[tea_room], anch_predictions[elevator])
-        weight_scale = elevator_range / dist_btw
-#         print("elevator: " + str(dist_btw))
-        copy_weights[elevator] = copy_weights[elevator] * weight_scale
+        if dist_btw > 0:
+            weight_scale = elevator_range / dist_btw
+    #         print("elevator: " + str(dist_btw))
+            copy_weights[elevator] = copy_weights[elevator] * weight_scale
         
     # scale weight by dist
     for anch_loc, dist in anch_dists.items():
@@ -240,7 +263,12 @@ def get_location(anch_dists):
 #     print(copy_weights)
     ave = weighted_pixel_ave(copy_weights, anch_predictions)
         
-    return anch_predictions, (ave[0] + 5, ave[1])
+    if ave[0] < 230:
+        return anch_predictions, (ave[0]-1, ave[1])
+    elif ave[0] < 310:
+        return anch_predictions, (ave[0]+1, ave[1])
+
+    return anch_predictions, (ave[0], ave[1])
 
 # Get orientation of robot based on two tag locations
 def get_angle(x1, y1, x2, y2):
@@ -272,27 +300,11 @@ def main():
     print(ser2)
 
     # Open messageboard
-    mb = messageboard.MessageBoard("tag")
-    print(mb)
+    # mb = messageboard.MessageBoard("tag")
+    # print(mb)
     cmd = "location_data"
     floor = 2
     status = "testing"
-
-    sorted_data = []
-    points_list = []
-
-
-    # Get point and static measurement data
-    with open('point_data_sorted_snd.pickle', 'rb') as infile1:
-        sorted_data = pickle.load(infile1)
-
-    with open('points_list.pickle', 'rb') as infile2:
-        points_list = pickle.load(infile2)
-
-    for i in range(len(points_list)):
-        point = points_list[i]
-        new_point = (int(point[0]), int(point[1]))
-        points_list[i] = new_point
 
     name_to_point = NAME_TO_POINT
 
@@ -325,38 +337,63 @@ def main():
 
     while(True):
         now = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
+        lines = {}
         line1 = readLine(ser1)
         if len(line1) < 1:
-            print("no line - 1")
-            continue
+            # print("no line - 1")
+            pass
+        else: 
+            # print("ACM0")
+            lines[1] = line1
+            line = line1
 
         line2 = readLine(ser2)
         if len(line2) < 1:
-            print("no line - 2")
+            # print("no line - 2")
+            pass
+        else: 
+            # print("ACM1")
+            lines[2] = line2
+            line = line2
+
+        if len(lines) != 0:
+            print(lines)
+
+        angle = 0
+        if len(lines) == 0:
             continue
+        elif len(lines) == 1:
+            # print('only 1 line')
 
-        # get x, y coords
-        dists1 = line1 
-        anch_pred1, prediction1 = get_location(dists1)
-        x1, y1 = prediction1
+            # get x, y coords
+            dists = line 
+            anch_pred, prediction = get_location(dists)
+            x, y = prediction
 
-        dists2 = line2
-        anch_pred2, prediction2 = get_location(dists2)
-        x2, y2 = prediction2
 
-        # get ave position
-        x = (x1 + x2) / 2 
-        y = (y1 + y2) / 2
-        x_m = PIX_TO_M_X * x
-        y_m = PIX_TO_M_Y * y
+        else:
+            # get x, y coords
+            dists1 = line1 
+            anch_pred1, prediction1 = get_location(dists1)
+            x1, y1 = prediction1
 
-        # Check within bounds
-        if x > 87 and y > 87:
-            continue
+            dists2 = line2
+            anch_pred2, prediction2 = get_location(dists2)
+            x2, y2 = prediction2
 
-        # get angle
-        angle = get_angle(x1, y1, x2, y2)
-        print((prediction1, prediction2, angle))
+            # get ave position
+            x = (x1 + x2) / 2 
+            y = (y1 + y2) / 2
+            x_m = PIX_TO_M_X * x
+            y_m = PIX_TO_M_Y * y
+
+            # Check within bounds
+            # if x > 87 and y > 87:
+            #     continue
+
+            # get angle
+            angle = get_angle(x1, y1, x2, y2)
+            # print((prediction1, prediction2, angle))
 
         msg = {
             "x_pix_global": x, 

@@ -213,7 +213,7 @@ def linear_interp(dist, anchor_num, sorted_data):
 weights = {'CB35': 20, '1934': 0, '872D': 1, '0288': 10, '1485': 20}
 middle_range = 3
 elevator_range = 3
-dist_scale_range = 10
+dist_scale_range = 15
 
 def weighted_pixel_ave(weights, anch_predictions):
     sum = (0,0)
@@ -263,7 +263,12 @@ def get_location(anch_dists):
 #     print(copy_weights)
     ave = weighted_pixel_ave(copy_weights, anch_predictions)
         
-    return anch_predictions, (ave[0] + 5, ave[1])
+    if ave[0] < 230:
+        return anch_predictions, (ave[0]-1, ave[1])
+    elif ave[0] < 310:
+        return anch_predictions, (ave[0]+1, ave[1])
+
+    return anch_predictions, (ave[0], ave[1])
 
 # Get orientation of robot based on two tag locations
 def get_angle(x1, y1, x2, y2):
